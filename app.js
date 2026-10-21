@@ -149,6 +149,150 @@ function renderPanel() {
   });
 }
 
+const weightLogKey = 'strong-steady-weight-log-v1';
+const weightForm = document.querySelector('#weight-form');
+const weightDateInput = document.querySelector('#weight-date');
+const weightValueInput = document.querySelector('#weight-value');
+const weightStatus = document.querySelector('#weight-status');
+const weightSummary = document.querySelector('#weight-summary');
+const weightChart = document.querySelector('#weight-chart');
+const weightHistory = document.querySelector('#weight-history');
+const clearWeightLogButton = document.querySelector('#clear-weight-log');
+
+function localDateInputValue(date = new Date()) {
+  const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+  return localDate.toISOString().slice(0, 10);
+}
+
+function getWeightLog() {
+  try {
+    const entries = JSON.parse(localStorage.getItem(weightLogKey) || '[]');
+    if (!Array.isArray(entries)) return [];
+    return entries.filter(entry => {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(entry?.date)) return false;
+      const weight = Number(entry.weight);
+      return Number.isFinite(weight) && weight >= 20 && weight <= 300;
+    }).map(entry => ({ date: entry.date, weight: Math.round(Number(entry.weight) * 10) / 10 }))
+      .sort((a, b) => a.date.localeCompare(b.date));
+  } catch {
+    return [];
+  }
+}
+
+function saveWeightLog(entries) {
+  localStorage.setItem(weightLogKey, JSON.stringify(entries));
+}
+
+function formatWeightDate(date) {
+  return new Date(`${date}T00:00:00`).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function renderWeightChart(entries) {
+  if (!entries.length) {
+    weightChart.innerHTML = '<div class="weight-chart-empty">Your check-ins will appear here. Add the first one whenever you are ready.</div>';
+    return;
+  }
+
+  const recent = entries.slice(-8);
+  const values = recent.map(entry => entry.weight);
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const spread = Math.max(max - min, 1);
+  const width = 520;
+  const height = 126;
+  const left = 24;
+  const right = width - 24;
+  const top = 18;
+  const bottom = height - 18;
+  const points = recent.map((entry, index) => {
+    const x = recent.length === 1 ? width / 2 : left + (index / (recent.length - 1)) * (right - left);
+    const y = bottom - ((entry.weight - min) / spread) * (bottom - top);
+    return { x, y, entry };
+  });
+  const polyline = points.map(point => `${point.x},${point.y}`).join(' ');
+  const lines = [0, 1, 2].map(index => {
+    const y = top + index * ((bottom - top) / 2);
+    return `<line x1="${left}" y1="${y}" x2="${right}" y2="${y}" stroke="#f1d7e2" stroke-width="1" />`;
+  }).join('');
+  const dots = points.map(point => `<circle cx="${point.x}" cy="${point.y}" r="5" fill="#bd5f84" stroke="#fffdfd" stroke-width="2"><title>${formatWeightDate(point.entry.date)}: ${point.entry.weight.toFixed(1)} kg</title></circle>`).join('');
+  const valueLabels = recent.length > 1 ? [points[0], points[points.length - 1]].map(point => {
+    const y = point.y < top + 20 ? point.y + 18 : point.y - 11;
+    return `<text x="${point.x}" y="${y}" text-anchor="middle" fill="#765668" font-size="12" font-family="DM Sans, sans-serif">${point.entry.weight.toFixed(1)}</text>`;
+  }).join('') : `<text x="${width / 2}" y="${points[0].y - 12}" text-anchor="middle" fill="#765668" font-size="12" font-family="DM Sans, sans-serif">${recent[0].weight.toFixed(1)} kg</text>`;
+
+  weightChart.innerHTML = `<svg viewBox="0 0 ${width} ${height}" role="presentation" aria-hidden="true">${lines}<polyline points="${polyline}" fill="none" stroke="#d783a4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />${dots}${valueLabels}</svg>`;
+}
+
+function renderWeightTracker() {
+  const entries = getWeightLog();
+  const latest = entries.at(-1);
+  clearWeightLogButton.hidden = entries.length === 0;
+
+  if (!latest) {
+    weightSummary.innerHTML = '<div class="weight-stat"><span class="weight-stat-label">Latest check-in</span><span class="weight-stat-value">-- <small>kg</small></span></div>';
+    weightHistory.innerHTML = '<li class="weight-history-empty">No check-ins saved yet.</li>';
+  } else {
+    const first = entries[0];
+    const change = latest.weight - first.weight;
+    const changeText = `${change > 0 ? '+' : ''}${change.toFixed(1)} kg`;
+    weightSummary.innerHTML = `<div class="weight-stat"><span class="weight-stat-label">Latest</span><span class="weight-stat-value">${latest.weight.toFixed(1)} <small>kg</small></span></div><div class="weight-stat"><span class="weight-stat-label">Since first check-in</span><span class="weight-stat-value">${entries.length > 1 ? changeText : 'One check-in'}</span></div>`;
+    weightHistory.innerHTML = [...entries].reverse().map(entry => `<li><span>${formatWeightDate(entry.date)}</span><strong>${entry.weight.toFixed(1)} kg</strong><button type="button" data-remove-weight="${entry.date}" aria-label="Remove check-in for ${formatWeightDate(entry.date)}">Remove</button></li>`).join('');
+  }
+
+  renderWeightChart(entries);
+  weightHistory.querySelectorAll('[data-remove-weight]').forEach(button => {
+    button.addEventListener('click', () => {
+      const updated = getWeightLog().filter(entry => entry.date !== button.dataset.removeWeight);
+      saveWeightLog(updated);
+      weightStatus.textContent = 'That check-in was removed. Your history is still saved only in this browser.';
+      renderWeightTracker();
+    });
+  });
+}
+
+weightDateInput.max = localDateInputValue();
+weightDateInput.value = localDateInputValue();
+weightForm.addEventListener('submit', event => {
+  event.preventDefault();
+  const date = weightDateInput.value;
+  const weight = Number(weightValueInput.value);
+  if (!date || date > localDateInputValue()) {
+    weightStatus.textContent = 'Choose today or an earlier date for this check-in.';
+    return;
+  }
+  if (!Number.isFinite(weight) || weight < 20 || weight > 300) {
+    weightStatus.textContent = 'Enter a weight between 20 and 300 kg.';
+    return;
+  }
+
+  try {
+    const entries = getWeightLog();
+    const replacesEntry = entries.some(entry => entry.date === date);
+    const updated = entries.filter(entry => entry.date !== date);
+    updated.push({ date, weight: Math.round(weight * 10) / 10 });
+    saveWeightLog(updated.sort((a, b) => a.date.localeCompare(b.date)));
+    weightStatus.textContent = replacesEntry
+      ? 'Updated that date with the new check-in. It remains saved only in this browser.'
+      : 'Check-in saved only in this browser on this device.';
+    weightValueInput.value = '';
+    weightDateInput.value = localDateInputValue();
+    renderWeightTracker();
+  } catch {
+    weightStatus.textContent = 'This browser could not save the check-in. Check its storage settings and try again.';
+  }
+});
+
+clearWeightLogButton.addEventListener('click', () => {
+  if (!window.confirm('Clear all saved weight check-ins from this browser?')) return;
+  try {
+    saveWeightLog([]);
+    weightStatus.textContent = 'Weight history cleared from this browser.';
+    renderWeightTracker();
+  } catch {
+    weightStatus.textContent = 'This browser could not clear the saved history.';
+  }
+});
+
 document.querySelector('#reset-progress').addEventListener('click', () => {
   localStorage.removeItem(progressKey);
   renderTabs(); renderPanel();
@@ -199,3 +343,4 @@ document.querySelector('#copy-prompt-fallback').addEventListener('click', async 
 
 renderTabs();
 renderPanel();
+renderWeightTracker();

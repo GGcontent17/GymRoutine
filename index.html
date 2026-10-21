@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fff6fa" />
+    <meta name="description" content="Mikaela Jae Guinto's cute, beginner-friendly gym plan with exercise demos, simple meals, and encouragement." />
+    <title>Mikaela's Strong &amp; Steady Plan</title>
+    <link rel="preconnect" href="https://www.youtube-nocookie.com" />
+    <link rel="preconnect" href="https://i.ytimg.com" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Mikaela's Strong and Steady home">
+        <span class="brand-mark" aria-hidden="true">♡</span>
+        <span>mikaela's <span class="brand-amp">strong</span> &amp; steady</span>
+      </a>
+      <a class="top-link" href="#ask-mikaela">Coach GodspeedGPT-Ai <span aria-hidden="true">♡</span></a>
+    </header>
+
+    <main id="top">
+      <section class="hero wrap">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="eyebrow-dot"></span> MADE WITH LOVE FOR MIKAELA</p>
+          <h1>Mikaela,<br /><span>you've got this.</span></h1>
+          <p class="hero-intro">A beginner-friendly week for <strong>Mikaela Jae Guinto</strong> to feel stronger, move more, and build a routine that fits around nursing school. One gentle step at a time.</p>
+          <div class="hero-tags">
+            <span>Beginner</span><span>Mon–Sat</span><span>About 30–45 min</span>
+          </div>
+        </div>
+        <div class="hero-art" aria-label="Illustration of a dumbbell and a heart" role="img">
+          <div class="art-sun"></div>
+          <div class="art-heart">♥</div>
+          <div class="art-dumbbell"><i></i><b></b><i></i></div>
+          <span class="art-caption">you are<br />doing great</span>
+          <span class="art-spark spark-one">♡</span><span class="art-spark spark-two">✧</span>
+        </div>
+      </section>
+
+      <section class="quote-section wrap" aria-label="Inspirational reminders for Mikaela">
+        <article class="favorite-quote">
+          <span class="quote-heart" aria-hidden="true">♡</span>
+          <p class="eyebrow">HER FAVOURITE VERSE</p>
+          <blockquote>“God is in the midst of her; she shall not be moved: God shall help her, and that right early.”</blockquote>
+          <cite>PSALM 46:5 · KJV</cite>
+        </article>
+        <div class="little-quotes">
+          <p class="eyebrow">LITTLE REMINDERS FOR THE WEEK</p>
+          <p>“Small steps still count, especially on the busy days.”</p>
+          <p>“You can be proud of yourself while you're still learning.”</p>
+          <p>“Your pace is yours. Keep showing up gently.”</p>
+        </div>
+      </section>
+
+      <section class="quick-stats wrap" aria-label="Plan overview">
+        <div><span class="stat-number">2–3</span><span class="stat-label">strength days</span></div>
+        <div><span class="stat-number">2</span><span class="stat-label">easy cardio days</span></div>
+        <div><span class="stat-number">1</span><span class="stat-label">fun movement day</span></div>
+        <div class="effort-note"><span class="effort-icon">☺</span><span><strong>Keep 2–3 reps in the tank.</strong><br />No need to train to exhaustion.</span></div>
+      </section>
+
+      <section class="plan-section wrap" id="plan">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">YOUR WEEK, AT A GLANCE</p>
+            <h2>Pick a day. Follow the plan.</h2>
+          </div>
+          <button class="text-button" id="reset-progress" type="button">Reset checkmarks</button>
+        </div>
+        <div class="week-strip" id="day-tabs" role="tablist" aria-label="Workout day"></div>
+        <div class="day-panel" id="day-panel" role="tabpanel" aria-live="polite"></div>
+      </section>
+
+      <section class="fuel-section" id="fuel">
+        <div class="wrap fuel-wrap">
+          <div class="fuel-heading">
+            <p class="eyebrow">SIMPLE FUEL, NO FOOD RULES</p>
+            <h2>Good training needs<br /><span>enough food.</span></h2>
+            <p>Use these as a flexible starting point. A steady routine, satisfying meals, and sleep matter more than hitting every number perfectly.</p>
+          </div>
+          <div class="macro-card">
+            <div class="macro-card-top"><span>DAILY STARTING TARGETS</span><span class="leaf-badge">50 kg · 21 yrs</span></div>
+            <div class="macro-grid">
+              <div class="macro-item macro-cal"><span>Energy</span><strong>1,650–1,800</strong><small>calories / day</small></div>
+              <div class="macro-item"><span>Protein</span><strong>80–100 g</strong><small>helps support recovery</small></div>
+              <div class="macro-item"><span>Carbs</span><strong>200–235 g</strong><small>fuel for class &amp; training</small></div>
+              <div class="macro-item"><span>Fat</span><strong>45–60 g</strong><small>include satisfying sources</small></div>
+            </div>
+            <p class="macro-note">These are estimates, not a strict prescription. Start near the middle, then adjust based on energy, hunger, and progress over a few weeks. Skip aggressive dieting.</p>
+          </div>
+        </div>
+
+        <div class="wrap meals-wrap">
+          <div class="meal-heading">
+            <div><p class="eyebrow">A DAY OF EVERYDAY FOOD</p><h2>Simple meal ideas</h2></div>
+            <span class="meal-tag">Filipino-friendly</span>
+          </div>
+          <div class="meal-grid">
+            <article class="meal-card"><span class="meal-time">BREAKFAST</span><span class="meal-emoji" aria-hidden="true">🍳</span><h3>Eggs &amp; pandesal</h3><p>2 eggs, 2 pandesal, a banana, and a glass of milk.</p></article>
+            <article class="meal-card"><span class="meal-time">LUNCH</span><span class="meal-emoji" aria-hidden="true">🍚</span><h3>Chicken adobo bowl</h3><p>Chicken, about 1 cup rice, and a generous serving of vegetables.</p></article>
+            <article class="meal-card"><span class="meal-time">SNACK</span><span class="meal-emoji" aria-hidden="true">🥛</span><h3>Study break</h3><p>Yogurt or soy milk with fruit; add a few nuts if she wants.</p></article>
+            <article class="meal-card"><span class="meal-time">DINNER</span><span class="meal-emoji" aria-hidden="true">🐟</span><h3>Fish, rice &amp; veg</h3><p>Grilled tilapia or bangus, rice, and vegetables she enjoys.</p></article>
+          </div>
+          <p class="meal-footnote">Portions can change with appetite and activity. Water through the day; bring an easy snack for long school or clinical days.</p>
+        </div>
+      </section>
+
+      <section class="notes-section wrap">
+        <div class="notes-icon" aria-hidden="true">✦</div>
+        <div>
+          <p class="eyebrow">A FEW KIND REMINDERS</p>
+          <h2>Progress should feel sustainable.</h2>
+          <p>Start with light weights and ask the floor staff to show her how each machine adjusts. Gym equipment can vary by club, so use the listed swap if a station is unavailable. This gentle first week starts below the general 150-minute weekly activity goal; she can add short walks gradually as her schedule and recovery allow. If she feels sharp pain, stop and check in with a qualified professional.</p>
+        </div>
+      </section>
+
+      <section class="ask-section wrap" id="ask-mikaela">
+        <div class="ask-sparkle" aria-hidden="true">✧</div>
+        <div class="ask-copy">
+          <p class="eyebrow">A LITTLE HELP IS ONE QUESTION AWAY</p>
+          <h2>Ask Coach GodspeedGPT-Ai.</h2>
+          <p>Ask about a movement, an easier swap, or fitting the plan around class. Coach GodspeedGPT-Ai will prepare the question with beginner-friendly context and open ChatGPT for her.</p>
+        </div>
+        <form class="ask-form" id="chatgpt-form">
+          <label for="question-input">What would you like to ask?</label>
+          <div class="ask-input-row">
+            <input id="question-input" name="question" type="text" maxlength="400" placeholder="e.g. What can I do if the leg press is busy?" required />
+            <button type="submit">Ask Coach GodspeedGPT-Ai <span aria-hidden="true">↗</span></button>
+          </div>
+          <p class="ask-help" id="ask-status" role="status">Her question isn't saved on this website. After ChatGPT opens, paste the copied prompt to get an answer.</p>
+          <a class="direct-chatgpt" href="https://chatgpt.com/" target="_blank" rel="noreferrer">Open ChatGPT if it didn't open ↗</a>
+          <div class="prompt-fallback" id="prompt-fallback" hidden>
+            <label for="prompt-to-copy">Copy this prompt into ChatGPT</label>
+            <textarea id="prompt-to-copy" rows="4" readonly></textarea>
+            <div class="fallback-actions"><button type="button" id="copy-prompt-fallback">Copy prompt</button><a href="https://chatgpt.com/" target="_blank" rel="noreferrer">Open ChatGPT ↗</a></div>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <footer class="footer wrap">
+      <a class="brand footer-brand" href="#top"><span class="brand-mark" aria-hidden="true">♡</span><span>mikaela's <span class="brand-amp">strong</span> &amp; steady</span></a>
+      <div class="footer-links"><a href="https://www.cdc.gov/physical-activity-basics/guidelines/adults.html" target="_blank" rel="noreferrer">Adult activity guidance</a><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5867436/" target="_blank" rel="noreferrer">Protein &amp; resistance training research</a><a href="https://www.anytimefitness.ph/membership/" target="_blank" rel="noreferrer">Anytime Fitness PH</a></div>
+      <p>Made for steady progress, not perfect weeks.</p>
+    </footer>
+  </body>
+</html>

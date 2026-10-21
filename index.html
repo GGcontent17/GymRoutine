@@ -61,6 +61,40 @@
         <div class="effort-note"><span class="effort-icon">☺</span><span><strong>Keep 2–3 reps in the tank.</strong><br />No need to train to exhaustion.</span></div>
       </section>
 
+      <section class="weight-section wrap" id="weight-tracker" aria-labelledby="weight-heading">
+        <div class="weight-section-head">
+          <div>
+            <p class="eyebrow">A PRIVATE LITTLE CHECK-IN</p>
+            <h2 id="weight-heading">Weight journey</h2>
+            <p class="weight-intro">Log a check-in when it feels useful. Day-to-day changes are normal, and the number is only one small part of progress.</p>
+          </div>
+          <span class="weight-heart" aria-hidden="true">♡</span>
+        </div>
+        <div class="weight-layout">
+          <form class="weight-form" id="weight-form">
+            <label for="weight-date">Date</label>
+            <input id="weight-date" name="date" type="date" required />
+            <label for="weight-value">Weight (kg)</label>
+            <input id="weight-value" name="weight" type="number" min="20" max="300" step="0.1" inputmode="decimal" placeholder="e.g. 50.0" required />
+            <button type="submit">Save check-in <span aria-hidden="true">♡</span></button>
+            <p class="weight-status" id="weight-status" role="status">Saved only in this browser on this device. It is not sent to the website or shared across devices.</p>
+          </form>
+
+          <div class="weight-dashboard">
+            <div class="weight-summary" id="weight-summary" aria-live="polite"></div>
+            <div class="weight-chart-wrap">
+              <div class="weight-chart" id="weight-chart" role="img" aria-label="Weight check-in trend chart"></div>
+              <div class="chart-ends"><span>Earlier</span><span>Recent</span></div>
+            </div>
+            <div class="weight-history-head">
+              <h3>Check-in history</h3>
+              <button class="text-button" id="clear-weight-log" type="button" hidden>Clear history</button>
+            </div>
+            <ul class="weight-history" id="weight-history" aria-label="Saved weight check-ins"></ul>
+          </div>
+        </div>
+      </section>
+
       <section class="plan-section wrap" id="plan">
         <div class="section-heading">
           <div>
